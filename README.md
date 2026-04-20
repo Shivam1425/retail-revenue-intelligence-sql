@@ -46,15 +46,15 @@ I didn't want to just write queries and leave it there. Here is a snapshot of th
 
 ### **Monthly Executive KPI Dashboard**
 This view provides the high-level monthly trends for revenue, transactions, and Year-over-Year (YoY) growth.
-![Monthly KPI Dashboard](assets/Screenshot%202026-04-20%20090850.png)
+![Monthly KPI Dashboard](assets/Screenshot%202026-04-20%20090052.png)
 
 ### **Holiday Lift Analysis**
 A deep-dive into how different holiday scopes (National vs. Regional vs. Local) impact store-day revenue.
-![Holiday Lift Analysis](assets/Screenshot%202026-04-20%20090638.png)
+![Holiday Lift Analysis](assets/Screenshot%202026-04-20%20090850.png)
 
 ### **Store Performance & Risk Scorecard**
 Using statistical outliers (Z-Score logic) to flag stores that are operationally at risk. In the screenshot below, you can see stores like Salinas and Guayaquil being flagged in the 'Watchlist' or 'Risk Outlier' categories based on their 90-day revenue trends.
-![Store Risk Scorecard](assets/Screenshot%202026-04-20%20090052.png)
+![Store Risk Scorecard](assets/Screenshot%202026-04-20%20090638.png)
 
 The difference between a National and a Local holiday is huge. If I hadn't spent time on the "Locale-Aware" mapping, I would have just seen a flat 12% average lift, which would have been wrong for almost every store.
 
