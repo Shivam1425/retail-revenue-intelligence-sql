@@ -32,6 +32,7 @@ I handled this using a **Window Function trick**: I created groups based on non-
 - **CTEs:** Kept complex queries readable by breaking them into logical steps.
 - **Statistical SQL:** Calculated Z-scores for anomaly detection and Coefficient of Variation (CV) for product stability.
 - **Business Logic:** Implemented "Same-Store Sales" filters to ensure I wasn't comparing "apples to oranges" when the store network expanded.
+- **Query Optimization:** Designed a multi-index strategy (Primary and Secondary) to handle over 120 million rows efficiently.
 
 ## What the data actually looks like
 I didn't want to just write queries and leave it there. Here is a snapshot of the results I got from my "Holiday Lift" analysis (Section 5, Q13):
@@ -42,6 +43,18 @@ I didn't want to just write queries and leave it there. Here is a snapshot of th
 | National Holiday | 4,212 | 8,241 | +20.58% |
 | Regional Holiday | 1,876 | 7,890 | +15.31% |
 | Local Holiday | 943 | 7,124 | +4.24% |
+
+### **Monthly Executive KPI Dashboard**
+This view provides the high-level monthly trends for revenue, transactions, and Year-over-Year (YoY) growth.
+![Monthly KPI Dashboard](assets/Screenshot%202026-04-20%20090850.png)
+
+### **Holiday Lift Analysis**
+A deep-dive into how different holiday scopes (National vs. Regional vs. Local) impact store-day revenue.
+![Holiday Lift Analysis](assets/Screenshot%202026-04-20%20090638.png)
+
+### **Store Performance & Risk Scorecard**
+Using statistical outliers (Z-Score logic) to flag stores that are operationally at risk. In the screenshot below, you can see stores like Salinas and Guayaquil being flagged in the 'Watchlist' or 'Risk Outlier' categories based on their 90-day revenue trends.
+![Store Risk Scorecard](assets/Screenshot%202026-04-20%20090052.png)
 
 The difference between a National and a Local holiday is huge. If I hadn't spent time on the "Locale-Aware" mapping, I would have just seen a flat 12% average lift, which would have been wrong for almost every store.
 
