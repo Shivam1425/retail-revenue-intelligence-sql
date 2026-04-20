@@ -5,7 +5,7 @@
 
 ![Database Schema](assets/erd_diagram.svg)
 
-## Why I chose this project
+## Why I choose this project
 I wanted to move beyond basic SQL. Most tutorials use tiny datasets where everything is clean. This project was the opposite. It’s a massive dataset (120M+ rows) with missing values, complex holiday calendars, and external macro factors like oil prices. 
 
 My goal wasn't just to see "total sales," but to build a real-world pipeline that handles the stuff tutorials usually skip:
