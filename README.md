@@ -8,10 +8,10 @@
 ## Why I chose this project
 I wanted to move beyond basic SQL. Most tutorials use tiny datasets where everything is clean. This project was the opposite. It’s a massive dataset (120M+ rows) with missing values, complex holiday calendars, and external macro factors like oil prices. 
 
-My goal wasn't just to see "total sales," but to build a professional-grade analytical pipeline that handles:
-1. **Comparable-store growth** (is the business *actually* growing or just opening more stores?)
-2. **True Holiday Lift** (not just joining by date, but by city and state).
-3. **Revenue Concentration** (using the Herfindahl-Hirschman Index).
+My goal wasn't just to see "total sales," but to build a real-world pipeline that handles the stuff tutorials usually skip:
+1. **Comparable-store growth:** Is the business *actually* growing, or are we just opening more stores to hide bad performance?
+2. **True Holiday Lift:** Making sure a holiday in Quito doesn't 'leak' into the sales analysis for a store in a different city.
+3. **Revenue Concentration:** Using the HHI index to see if we are too dependent on just a few products.
 
 ## The Biggest Technical Hurdles
 
@@ -45,11 +45,16 @@ I didn't want to just write queries and leave it there. Here is a snapshot of th
 
 The difference between a National and a Local holiday is huge. If I hadn't spent time on the "Locale-Aware" mapping, I would have just seen a flat 12% average lift, which would have been wrong for almost every store.
 
-## My Take (Recommendations)
-If I were presenting this to a store manager, here is what I’d tell them:
-- **Don't ignore the oil price:** That -0.75 correlation is serious. If fuel prices are trending up, the team should probably prepare for a dip in sales and maybe focus on "essential" items.
-- **National holidays are the big winners:** Local holidays don't actually drive much extra revenue (+4%). I'd suggest focusing the big promo budgets only on the National events.
-- **Concentration Risk:** Since nearly 80% of the money comes from just 5 product families, the store is very vulnerable. I think they should try to "cross-sell" some of the smaller categories to the people who are already coming in for the "Big 5."
+## My Take (What I'd tell a Manager)
+- **Don't ignore the oil price:** That -0.75 correlation is serious. When fuel prices go up, we should expect a dip in general sales.
+- **National holidays are the only big drivers:** Local holidays don't drive much extra revenue (+4%). I'd suggest focusing the promo budget only on National events.
+- **Concentration Risk:** Nearly 80% of our money comes from just 5 product families. That makes us very vulnerable. I think we should try to cross-sell smaller categories to the people coming in for the "Big 5."
+
+## Learning Reflections
+This project was a huge step up from simple SQL. I learned that:
+- Clean data is a myth. I spent 40% of my time just fixing the oil price gaps and holiday mappings.
+- Window functions aren't just 'cool'—they are essential for things like YoY growth and forward-filling data.
+- Business context matters more than the code. A query that ignores 'Same-Store' logic is technically correct but business-wise useless.
 
 ## How to use this Repo
 1. **schema.sql:** Run this first to set up the tables.

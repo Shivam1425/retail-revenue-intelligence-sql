@@ -8,13 +8,11 @@ DIALECT: MySQL 8.0
 ========================================================= */
 
 -- ======================================================================
--- RETAIL DEMAND & REVENUE INTELLIGENCE
--- Design standard for this file:
--- 1. Build reusable analytical helper tables first.
--- 2. Use comparable-store logic instead of naive topline comparisons.
--- 3. Attribute holidays by National / Regional / Local applicability.
--- 4. Combine revenue with transactions, promo mix, and external context.
--- 5. Keep every query decision-oriented and portfolio-ready.
+-- MY APPROACH FOR THIS PROJECT
+-- 1. Build helper views first so the main queries stay clean.
+-- 2. Use 'Same-Store' logic (comparable stores) so I don't get 'fake growth' from new openings.
+-- 3. Map holidays carefully by city/state—joining only by date is too simple and wrong.
+-- 4. Combine sales data with macro context like oil prices to see the bigger picture.
 -- ======================================================================
 
 
@@ -24,8 +22,8 @@ SECTION 0: ANALYTICAL FOUNDATION TABLES
 
 DROP VIEW IF EXISTS vw_store_day_metrics;
 
--- Design Note: Aggregates raw family-level sales to the store-day grain.
--- This serves as the primary fact table for all downstream time-series analysis.
+-- How I solved this: Aggregates raw sales to the store-day level. 
+-- This is my 'Master Table' that I use for almost everything else.
 CREATE OR REPLACE VIEW vw_store_day_metrics AS
 SELECT
     t.date,
@@ -68,8 +66,9 @@ GROUP BY
 
 DROP VIEW IF EXISTS vw_oil_prices_filled;
 
--- Design Note: Solves the "sparse data" problem. Oil prices are weekday-only;
--- we use the COUNT window trick to 'carry' the last known price into weekends.
+-- The Challenge: Oil prices are only updated on weekdays. Since stores are open 7 days, 
+-- a simple join leaves NULLs on weekends. I used the 'Count Window' trick to 
+-- carry the Friday price over to Saturday and Sunday.
 CREATE OR REPLACE VIEW vw_oil_prices_filled AS
 WITH oil_groups AS (
     SELECT 
@@ -113,8 +112,8 @@ LEFT JOIN vw_oil_prices_filled o
 
 DROP VIEW IF EXISTS vw_store_holiday_map;
 
--- Design Note: Prevents "data leakage" by matching holidays to stores only where 
--- they apply (e.g. city holidays don't affect stores in other cities).
+-- The Logic: A holiday in one city doesn't affect a store in another city.
+-- I used UNION ALL to map holidays specifically to the right store based on its location.
 CREATE OR REPLACE VIEW vw_store_holiday_map AS
 SELECT
     h.date,
@@ -164,8 +163,8 @@ WHERE h.type IN ('Holiday', 'Additional', 'Bridge', 'Event', 'Transfer')
 
 DROP VIEW IF EXISTS vw_store_day_context;
 
--- Design Note: The 'Universal Analytical Record' that joins metrics, traffic, 
--- macro context, and events into a single, clean flattened row.
+-- My 'All-in-One' View: This joins the metrics, oil prices, and holidays 
+-- into one flat table so my final analysis queries are much shorter and easier to read.
 CREATE OR REPLACE VIEW vw_store_day_context AS
 SELECT
     e.*,
