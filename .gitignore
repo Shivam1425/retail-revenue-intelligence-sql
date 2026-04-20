@@ -1,0 +1,7 @@
+# Exclude heavy data files
+data/*.csv
+
+# Exclude system files
+.DS_Store
+Thumbs.db
+.gemini/
